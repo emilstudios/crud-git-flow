@@ -23,6 +23,19 @@ app.post('/api/tareas', (req, res) => {
   tareas.push(tarea);
   res.status(201).json(tarea);
 });
+// READ (todas)
+app.get('/api/tareas', (req, res) => {
+  res.json(tareas);
+});
+
+// READ (una por id)
+app.get('/api/tareas/:id', (req, res) => {
+  const tarea = tareas.find(t => t.id === parseInt(req.params.id));
+  if (!tarea) {
+    return res.status(404).json({ error: 'Tarea no encontrada' });
+  }
+  res.json(tarea);
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor en http://localhost:${PORT}`);
