@@ -35,6 +35,26 @@ app.get('/api/tareas/:id', (req, res) => {
     return res.status(404).json({ error: 'Tarea no encontrada' });
   }
   res.json(tarea);
+})
+// UPDATE
+app.put('/api/tareas/:id', (req, res) => {
+  const tarea = tareas.find(t => t.id === parseInt(req.params.id));
+  if (!tarea) {
+    return res.status(404).json({ error: 'Tarea no encontrada' });
+  }
+  const { titulo, completada } = req.body;
+  if (titulo !== undefined) tarea.titulo = titulo;
+  if (completada !== undefined) tarea.completada = completada;
+  res.json(tarea);
+});
+// DELETE
+app.delete('/api/tareas/:id', (req, res) => {
+  const tarea = tareas.find(t => t.id === parseInt(req.params.id));
+  if (!tarea) {
+    return res.status(404).json({ error: 'Tarea no encontrada' });
+  }
+  tareas = tareas.filter(t => t.id !== parseInt(req.params.id));
+  res.json({ message: 'Tarea eliminada' });
 });
 
 app.listen(PORT, () => {
